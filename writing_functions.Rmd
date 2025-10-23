@@ -42,6 +42,14 @@ Function to compute z scores
 ```{r}
 z_scores = function(x) {
   
+  if (!is.numeric(x)) {
+    stop("The input x should be numeric")
+  }
+  
+  if (length(x) < 5) {
+    stop("Only compute z scores when the input has 5 or more numbers")
+  }
+  
   z = (x - mean(x)) / sd(x)
   
   z
@@ -56,5 +64,39 @@ z_scores(x = x_vec)
 num_vec = rnorm(123, mean = 14, sd = 0.4)
 
 z_scores(x = num_vec)
+```
+
+Let's break our function
+
+```{r, error = TRUE}
+z_scores(3)
+
+z_scores("my name is Mukta")
+```
+
+## Computing
+
+Compute and return mean and SD of a numeric vector
+
+```{r}
+mean_and_sd = function() {
+  
+  if (!is.numeric(x)) {
+    stop("The input x should be numeric")
+  }
+  
+  if (length(x) < 5) {
+    stop("Only compute z scores when the input has 5 or more numbers")
+  }
+  
+  
+  mean_x = mean(x, na.rm = TRUE)
+  sd_x = sd(x, na.rm = TRUE)
+  
+  tibble(
+    mean - mean_x,
+    sd = sd_x
+  )
+}
 ```
 
