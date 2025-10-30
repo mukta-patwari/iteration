@@ -1,49 +1,28 @@
----
-title: "simulation"
-author: "Mukta Patwari"
-date: "2025-10-30"
-output: github_document
----
-
-```{r setup, include=FALSE}
-library(tidyverse)
-library(rvest)
-
-knitr::opts_chunk$set(
-  fig.path = "figures/",
-  fig.width = 6,
-  fig.asp = .6,
-  out.width = "90%"
-)
-
-theme_set(theme_minimal() + theme(legend.position = "bottom"))
-
-options(
-  ggplot2.continuous.colour = "viridis",
-  ggplot2.continuous.fill = "viridis"
-)
-
-scale_colour_discrete = scale_colour_viridis_d
-scale_fill_discrete = scale_fill_viridis_d
-
-set.seed(1)
-```
+simulation
+================
+Mukta Patwari
+2025-10-30
 
 Load source files
 
-```{r}
+``` r
 source("source/sim_mean_sd.R")
 ```
 
-We can "simulate" by running our function
+We can “simulate” by running our function
 
-```{r}
+``` r
 sim_mean_and_sd(n_subj = 400)
 ```
 
-can.i "verify" CLT?
+    ## # A tibble: 1 × 2
+    ##   mu_hat sigma_hat
+    ##    <dbl>     <dbl>
+    ## 1   3.08      1.94
 
-```{r}
+can.i “verify” CLT?
+
+``` r
 output = vector("list", length = 100)
 
 for (i in 1:100) {
@@ -57,9 +36,11 @@ output %>%
   geom_density()
 ```
 
+<img src="figures/unnamed-chunk-3-1.png" width="90%" />
+
 Try to repeat w/ a map statement
 
-```{r}
+``` r
 sim_results_df =
   expand_grid(
     sample_size = c(30, 60, 90, 120),
@@ -71,9 +52,9 @@ sim_results_df =
   unnest(results)
 ```
 
-Let's look at this:
+Let’s look at this:
 
-```{r}
+``` r
 sim_results_df %>% 
   mutate(
     sample_size = str_c("n = ", sample_size),
@@ -83,9 +64,11 @@ sim_results_df %>%
   geom_violin()
 ```
 
-Let's try to summarize
+<img src="figures/unnamed-chunk-5-1.png" width="90%" />
 
-```{r}
+Let’s try to summarize
+
+``` r
 sim_results_df %>% 
   group_by(sample_size) %>% 
   summarize(
@@ -94,3 +77,10 @@ sim_results_df %>%
   )
 ```
 
+    ## # A tibble: 4 × 3
+    ##   sample_size emp_mean emp_se
+    ##         <dbl>    <dbl>  <dbl>
+    ## 1          30     3.00  0.357
+    ## 2          60     2.99  0.257
+    ## 3          90     3.00  0.216
+    ## 4         120     3.00  0.190
